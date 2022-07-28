@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ArticleController {
 
@@ -129,6 +130,8 @@ public class ArticleController {
     public void getArticles(Rq rq) {
         List<ArticleDto> articleDtos = articleService.findAll();
 
-        rq.json(articleDtos);
+        Map<String, Object> resultData = Ut.mapOf("resultCode","S-1","msg","성공","data", articleDtos);
+
+        rq.json(resultData);
     }
 }
