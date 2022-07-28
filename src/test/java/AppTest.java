@@ -22,4 +22,14 @@ public class AppTest {
                 {"id":1,"title":"제목","body":"내용"}
                 """.trim());
     }
+
+    @Test
+    void ObjectMapper__jsonStrToObj() throws JsonProcessingException {
+        ArticleDto articleDtoOrigin = new ArticleDto(1, "제목", "내용");
+        String jsonStr = Ut.json.toStr(articleDtoOrigin, "");
+
+        ArticleDto articleDtoFromJson = (ArticleDto)Ut.json.toObj(jsonStr,ArticleDto.class,null);
+
+        assertThat(articleDtoOrigin).isEqualTo(articleDtoFromJson);
+    }
 }
