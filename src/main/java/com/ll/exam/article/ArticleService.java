@@ -32,4 +32,8 @@ public class ArticleService {
     public void delete(long id) {
         articleRepository.delete(id);
     }
+
+    public List<ArticleDto> findIdGreaterThan(long fromId) {
+        return articleRepository.findAllIdGreaterThan(fromId);
+    }
 }
