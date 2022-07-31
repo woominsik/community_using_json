@@ -43,8 +43,8 @@ public class ArticleRepository {
 
     private static void makeTestData() {
         IntStream.rangeClosed(1, 10).forEach(id -> {
-            String title = "제목%d".formatted(id);
-            String body = "내용%d".formatted(id);
+            String title = "24일 흠뻑쇼 동행 구합니다!%d".formatted(id);
+            String body = "남녀 무관 24일 흠뻑쇼 같이 갈 인원 4명 구합니다!%d".formatted(id);
             write(title, body);
         });
     }
@@ -66,7 +66,7 @@ public class ArticleRepository {
     public List<ArticleDto> findAllIdGreaterThan(long fromId) {
         return datum
                 .stream()
-                .filter(articleDto -> articleDto.getId() >= fromId)
+                .filter(articleDto -> articleDto.getId() > fromId)
                 .collect(Collectors.toList());
     }
 }
