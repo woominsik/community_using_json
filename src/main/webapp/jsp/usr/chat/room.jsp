@@ -13,13 +13,43 @@
             return false;
         }
 
-        form.submit();
+        // fetch 방식이 아닌, jquery 방식
+        $.post(
+            '/usr/chat/writeMessageAjax/${room.id}', // 주소, action
+            {
+                body: form.body.value // 폼 내용, input name, value
+            },
+            function(data) { // 콜백 메서드, 통신이 완료된 후, 실행
+                // data.resultCode
+                // data.msg
+            },
+            'json' // 받은 데이터를 json 으로 해석하겠다.
+        );
+
+        form.body.value = '';
+        form.body.focus();
     }
 </script>
 
 
 <script>
     let ChatMessages__lastId = 0;
+
+    function ChatMessages__remove(id) {
+        $.post(
+            `/usr/chat/deleteMessageAjax/\${id}`, // 주소, action
+            {
+                _method: "DELETE"
+            },
+            function(data) {
+                if ( data.msg ) {
+                    alert(data.msg);
+                }
+            },
+            'json' // 받은 데이터를 json 으로 해석하겠다.
+        );
+    }
+
     function ChatMessages__loadMore() {
         fetch(`/usr/chat/getMessages/${room.id}/?fromId=\${ChatMessages__lastId}`)
             .then(data => data.json())
@@ -33,7 +63,8 @@
                         <span>메세지 \${message.id} :</span>
                         &nbsp;
                         <span>\${message.body}</span>
-                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" class="hover:underline hover:text-[red] mr-2" href="/usr/chat/deleteMessage/\${message.id}?_method=DELETE">삭제</a>
+                        &nbsp;
+                        <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessages__remove(\${message.id}); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                     </li>
                 `;
 
