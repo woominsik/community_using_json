@@ -21,28 +21,23 @@ public class DispatchServlet extends HttpServlet {
         switch (rq.getRouteMethod()) {
             case "GET":
                 switch (rq.getActionPath()) {
-                    case "/usr/chat/getMessages":
-                        chatController.getMessages(rq);
-                        break;
-                    case "/usr/chat/roomManual":
-                        chatController.showRoomManual(rq);
-                        break;
-                    case "/usr/chat/room":
-                        chatController.showRoom(rq);
-                        break;
-                    case "/usr/chat/roomList":
-                        chatController.showRoomList(rq);
-                        break;
                     case "/usr/chat/createRoom":
                         chatController.showCreateRoom(rq);
                         break;
                     case "/usr/chat/modifyRoom":
                         chatController.showModifyRoom(rq);
-                    case "/usr/article/listAuto":
-                        articleController.showListAuto(rq);
                         break;
-                    case "/usr/article/getArticles":
-                        articleController.getArticles(rq);
+                    case "/usr/chat/roomList":
+                        chatController.showRoomList(rq);
+                        break;
+                    case "/usr/chat/room":
+                        chatController.showRoom(rq);
+                        break;
+                    case "/usr/chat/roomManual":
+                        chatController.showRoomManual(rq);
+                        break;
+                    case "/usr/chat/getMessages":
+                        chatController.getMessages(rq);
                         break;
                     case "/usr/article/modify":
                         articleController.showModify(rq);
@@ -52,6 +47,12 @@ public class DispatchServlet extends HttpServlet {
                         break;
                     case "/usr/article/list":
                         articleController.showList(rq);
+                        break;
+                    case "/usr/article/listAuto":
+                        articleController.showListAuto(rq);
+                        break;
+                    case "/usr/article/getArticles":
+                        articleController.getArticles(rq);
                         break;
                     case "/usr/article/write":
                         articleController.showWrite(rq);
@@ -64,19 +65,22 @@ public class DispatchServlet extends HttpServlet {
             case "POST":
                 switch (rq.getActionPath()) {
                     case "/usr/chat/writeMessage":
-                        chatController.doWriteMessage(rq);
+                        chatController.writeMessage(rq);
                         break;
-                    case "/usr/chat/modifyRoom":
-                        chatController.doModifyRoom(rq);
+                    case "/usr/chat/writeMessageAjax":
+                        chatController.writeMessageAjax(rq);
                         break;
                     case "/usr/chat/createRoom":
-                        chatController.doCreateRoom(rq);
+                        chatController.createRoom(rq);
+                        break;
+                    case "/usr/chat/modifyRoom":
+                        chatController.modifyRoom(rq);
                         break;
                     case "/usr/article/write":
-                        articleController.doWrite(rq);
+                        articleController.write(rq);
                         break;
                     case "/usr/article/modify":
-                        articleController.doModify(rq);
+                        articleController.modify(rq);
                         break;
                 }
                 break;
@@ -89,8 +93,9 @@ public class DispatchServlet extends HttpServlet {
                         chatController.deleteMessage(rq);
                         break;
                     case "/usr/article/delete":
-                        articleController.doDelete(rq);
+                        articleController.delete(rq);
                         break;
+
                 }
         }
     }
