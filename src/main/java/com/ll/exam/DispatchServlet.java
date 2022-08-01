@@ -1,6 +1,7 @@
 package com.ll.exam;
 
 import com.ll.exam.article.ArticleController;
+import com.ll.exam.chat.ChatController;
 import com.ll.exam.member.MemberController;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,10 +16,19 @@ public class DispatchServlet extends HttpServlet {
 
         MemberController memberController = new MemberController();
         ArticleController articleController = new ArticleController();
+        ChatController chatController = new ChatController();
 
         switch (rq.getRouteMethod()) {
             case "GET":
                 switch (rq.getActionPath()) {
+                    case "/usr/chat/roomList":
+                        chatController.showRoomList(rq);
+                        break;
+                    case "/usr/chat/createRoom":
+                        chatController.showCreateRoom(rq);
+                        break;
+                    case "/usr/chat/modifyRoom":
+                        chatController.showModifyRoom(rq);
                     case "/usr/article/listAuto":
                         articleController.showListAuto(rq);
                         break;
@@ -44,6 +54,12 @@ public class DispatchServlet extends HttpServlet {
                 break;
             case "POST":
                 switch (rq.getActionPath()) {
+                    case "/usr/chat/modifyRoom":
+                        chatController.doModifyRoom(rq);
+                        break;
+                    case "/usr/chat/createRoom":
+                        chatController.doCreateRoom(rq);
+                        break;
                     case "/usr/article/write":
                         articleController.doWrite(rq);
                         break;
