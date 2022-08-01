@@ -143,4 +143,8 @@ public class ArticleController {
         rq.successJson(articleDtos);
 //        rq.failJson(articleDtos);
     }
+
+    public void showListAuto(Rq rq) {
+        rq.view("usr/article/listAuto");
+    }
 }
