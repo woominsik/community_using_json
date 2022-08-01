@@ -6,13 +6,10 @@
 <script>
     function ChatMessageSave__submitForm(form) {
         form.body.value = form.body.value.trim();
-
         if ( form.body.value.length == 0 ) {
             form.body.focus();
-
             return false;
         }
-
         // fetch 방식이 아닌, jquery 방식
         $.post(
             '/usr/chat/writeMessageAjax/${room.id}', // 주소, action
@@ -25,7 +22,6 @@
             },
             'json' // 받은 데이터를 json 으로 해석하겠다.
         );
-
         form.body.value = '';
         form.body.focus();
     }
@@ -34,22 +30,18 @@
 
 <script>
     let ChatMessages__lastId = 0;
-
     function ChatMessages__remove(id) {
-        $.post(
-            `/usr/chat/deleteMessageAjax/\${id}`, // 주소, action
-            {
-                _method: "DELETE"
-            },
-            function(data) {
+        $.ajax({
+            url: `/usr/chat/deleteMessageAjax/\${id}`,
+            type: 'DELETE',
+            success: function(data) {
                 if ( data.msg ) {
                     alert(data.msg);
                 }
             },
-            'json' // 받은 데이터를 json 으로 해석하겠다.
-        );
+            dataType: 'json'
+        });
     }
-
     function ChatMessages__loadMore() {
         fetch(`/usr/chat/getMessages/${room.id}/?fromId=\${ChatMessages__lastId}`)
             .then(data => data.json())
@@ -57,7 +49,6 @@
                 const messages = responseData.data;
                 for ( const index in messages ) {
                     const message = messages[index];
-
                     const html = `
                     <li class="flex">
                         <span>메세지 \${message.id} :</span>
@@ -67,14 +58,11 @@
                         <a onclick="if ( confirm('정말로 삭제하시겠습니까?') ) ChatMessages__remove(\${message.id}); return false;" class="cursor-pointer hover:underline hover:text-[red] mr-2">삭제</a>
                     </li>
                 `;
-
                     $('.chat-messages').append(html);
                 }
-
                 if ( messages.length > 0 ) {
                     ChatMessages__lastId = messages[messages.length - 1].id;
                 }
-
                 // ChatMessages__loadMore(); // 즉시 실행
                 setTimeout(ChatMessages__loadMore, 3000); // ChatMessages__loadMore(); 를 3초 뒤에 수행
             });
